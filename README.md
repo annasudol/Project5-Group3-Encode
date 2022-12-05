@@ -13,4 +13,4 @@ Players must purchase before ERC20 tokens to bet. The winner receives the pooled
 ### 0x1124012495e6c9cceC36228cfD1425641e70cdC9
 [contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x1124012495e6c9cceC36228cfD1425641e70cdC9#code)
 
-![screenshot](./screenshot.png)
+![screenshot](./screen.png)
