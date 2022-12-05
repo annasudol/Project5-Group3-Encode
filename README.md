@@ -1,17 +1,7 @@
-# Sample Hardhat Project
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
-
+Lottery dapp
+Owner deploy lottery and define the betting price and fee. 
+Players must purchase before ERC20 tokens to bet. The winner receives the pooled ERC20 minus fee. I build a fronted lottery dapp (partly finished. 
 
 ## contract ERC20
 ### 0xbCFb1F3796dB8B1855905ed925F88e0205126B74
