@@ -20,5 +20,5 @@ npx hardhat run scripts/deploy.ts
 
 
 ## contract lottery
-### 0x376410BD5802d5E77daD2875BC10C5AE26A3Bf2F
-[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x376410BD5802d5E77daD2875BC10C5AE26A3Bf2F#code)
+### 0x1124012495e6c9cceC36228cfD1425641e70cdC9
+[contract at goerli.etherscan.io](https://goerli.etherscan.io/address/0x1124012495e6c9cceC36228cfD1425641e70cdC9#code)

@@ -15,7 +15,6 @@ contract Lottery is Ownable {
     bool public betsOpen;
     uint256 public betsClosingTime;
     mapping(address => uint256) public prize;
-
     address[] _slots;
 
     constructor(uint256 _purchaseRatio, uint256 _betPrice, uint256 _betFee, address ERC20address) {
@@ -38,9 +37,8 @@ contract Lottery is Ownable {
         _;
     }
 
-    function openBets(uint256 closingTime) public onlyOwner whenBetsClosed {
-        require(closingTime > block.timestamp, "Closing time must be in the future");
-        betsClosingTime = closingTime;
+    function openBets(uint256 num_of_days) public onlyOwner whenBetsClosed {
+        betsClosingTime = block.timestamp + (num_of_days * 1 days);
         betsOpen = true;
     }
 

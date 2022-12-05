@@ -4,6 +4,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { usePurchaseTokens } from "../../hooks/purchaseTokens";
 
 import Row from "./row";
+import Bets from "./bets";
 
 function Home() {
   const {balance, symbol, write, isLoading, setIsLoading} = usePurchaseTokens();
@@ -36,21 +37,9 @@ function Home() {
             >
               purchase tokens
             </button>
-            {balance > 0 && (
-              <button
-                disabled={!write || isLoading}
-                onClick={() => {
-                  setIsLoading(true);
-                  write?.();
-                }}
-                className="disabled:opacity-25 enabled:hover:scale-105 transform transition bg-blue-500 hover:bg-primary text-white font-bold py-2 px-4 rounded"
-                type="button"
-              >
-                return tokens
-              </button>
-            )}
           </div>
         </div>
+        {balance && <Bets />}
       </div>
     </div>
   );
