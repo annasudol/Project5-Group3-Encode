@@ -1,7 +1,8 @@
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.4;
-
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {LotteryErc20} from "./LotteryErc20.sol";
+import "hardhat/console.sol";
 
 
 contract Lottery is Ownable {
@@ -17,14 +18,13 @@ contract Lottery is Ownable {
 
     address[] _slots;
 
-    constructor(uint256 _purchaseRatio, uint256 _betPrice, uint256 _betFee) {
-        paymentToken = new LotteryErc20("MyToken", "TKN");
+    constructor(uint256 _purchaseRatio, uint256 _betPrice, uint256 _betFee, address ERC20address) {
+        paymentToken = LotteryErc20(ERC20address);
         purchaseRatio = _purchaseRatio;
         betPrice = _betPrice;
         betFee = _betFee;
     }
 
-    /// @notice Passes when the lottery is at closed state
     modifier whenBetsClosed() {
         require(!betsOpen, "Lottery is open");
         _;
@@ -39,10 +39,7 @@ contract Lottery is Ownable {
     }
 
     function openBets(uint256 closingTime) public onlyOwner whenBetsClosed {
-        require(
-            closingTime > block.timestamp,
-            "Closing time must be in the future"
-        );
+        require(closingTime > block.timestamp, "Closing time must be in the future");
         betsClosingTime = closingTime;
         betsOpen = true;
     }
@@ -77,7 +74,7 @@ contract Lottery is Ownable {
 
     function closeLottery() public {
         require(block.timestamp >= betsClosingTime, "Too soon to close");
-        require(betsOpen, "Already closed");
+        require(betsOpen == true, "Already closed");
         if (_slots.length > 0) {
             uint256 winnerIndex = getRandomNumber() % _slots.length;
             address winner = _slots[winnerIndex];
@@ -88,27 +85,22 @@ contract Lottery is Ownable {
         betsOpen = false;
     }
 
-    /// @notice Get a random number calculated from the previous block randao
-    /// @dev This only works after The Merge
     function getRandomNumber() public view returns (uint256 randomNumber) {
         randomNumber = block.difficulty;
     }
 
-    /// @notice Withdraw `amount` from that account prize pool
     function prizeWithdraw(uint256 amount) public {
         require(amount <= prize[msg.sender], "Not enough prize");
         prize[msg.sender] -= amount;
         paymentToken.transfer(msg.sender, amount);
     }
 
-    /// @notice Withdraw `amount` from the owner pool
     function ownerWithdraw(uint256 amount) public onlyOwner {
         require(amount <= ownerPool, "Not enough fees collected");
         ownerPool -= amount;
         paymentToken.transfer(msg.sender, amount);
     }
 
-    /// @notice Burn `amount` tokens and give the equivalent ETH back to user
     function returnTokens(uint256 amount) public {
         paymentToken.burnFrom(msg.sender, amount);
         payable(msg.sender).transfer(amount / purchaseRatio);
