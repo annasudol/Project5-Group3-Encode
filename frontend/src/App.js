@@ -11,7 +11,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 const { chains, provider } = configureChains(
   [chain.goerli],
-  [alchemyProvider({ apiKey: process.env.REACT_APP_API_KEY }), publicProvider()]
+  [alchemyProvider({ apiKey: 'eI8f-1MDWAsTNcERXQWRePJoDM7eXfik' }), publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({

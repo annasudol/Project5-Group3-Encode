@@ -1,18 +1,12 @@
 import React from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-import { useMintTokens } from "../../hooks";
+import { usePurchaseTokens } from "../../hooks/purchaseTokens";
+
 import Row from "./row";
 
 function Home() {
-  const {
-    mintAddress,
-    setMintAddress,
-    balanceData,
-    write,
-    isLoading,
-    setIsLoading,
-  } = useMintTokens();
+  const {balance, symbol, write, isLoading, setIsLoading} = usePurchaseTokens();
 
   return (
     <div className="flex justify-center">
@@ -22,24 +16,15 @@ function Home() {
         </nav>
         <div className="flex flex-wrap ml-14">
           <div>
-            <Row label="Token name:" value={!balanceData ? "" : "TestToken"} />
-            <Row label="Token symbol:" value={!balanceData ? "" : "TTK"} />
+            <Row label="Token symbol:" value={!symbol ? "" : symbol} />
             <Row
               label="User balance:"
-              value={!balanceData ? "" : balanceData.formatted}
+              value={!balance ? "" : balance}
             />
           </div>
         </div>
         <div className="flex justify-center">
           <div className="flex items-center w-full max-w-sm">
-            <input
-              className="justify-self-stretch font-bold text-xs appearance-none bg-transparent border border-gray-200 rounded text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none md:min-w-full"
-              type="text"
-              value={mintAddress}
-              placeholder="Insert user address here"
-              aria-label="Mint address"
-              onChange={(e) => setMintAddress(e.target.value)}
-            />
             <button
               disabled={!write || isLoading}
               onClick={() => {
@@ -49,8 +34,21 @@ function Home() {
               className="disabled:opacity-25 enabled:hover:scale-105 transform transition bg-blue-500 hover:bg-primary text-white font-bold py-2 px-4 rounded"
               type="button"
             >
-              Mint tokens
+              purchase tokens
             </button>
+            {balance > 0 && (
+              <button
+                disabled={!write || isLoading}
+                onClick={() => {
+                  setIsLoading(true);
+                  write?.();
+                }}
+                className="disabled:opacity-25 enabled:hover:scale-105 transform transition bg-blue-500 hover:bg-primary text-white font-bold py-2 px-4 rounded"
+                type="button"
+              >
+                return tokens
+              </button>
+            )}
           </div>
         </div>
       </div>
